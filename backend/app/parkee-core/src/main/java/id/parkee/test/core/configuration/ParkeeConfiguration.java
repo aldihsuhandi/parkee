@@ -11,8 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("id.parkee.test")
 @ComponentScan("id.parkee.test")
 @EnableJpaRepositories(basePackages = "id.parkee.test")
-@EnableAutoConfiguration(exclude = {
-        SecurityAutoConfiguration.class
-})
+@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class ParkeeConfiguration {
 }

@@ -1,10 +1,14 @@
 package id.parkee.test.web.form;
 
-import lombok.ToString;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 
-@ToString
 public class BaseForm implements Serializable {
     private static final long serialVersionUID = 6119378547580396540L;
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

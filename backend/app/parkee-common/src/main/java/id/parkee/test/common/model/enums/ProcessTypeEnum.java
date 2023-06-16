@@ -8,9 +8,9 @@ public enum ProcessTypeEnum {
     CHECKED_OUT("CHECKED_OUT"),
     TICKET_INFO("TICKET_INFO");
 
-    ProcessTypeEnum(String process) {
-        this.process = process;
+    ProcessTypeEnum(String code) {
+        this.code = code;
     }
 
-    private final String process;
+    private final String code;
 }

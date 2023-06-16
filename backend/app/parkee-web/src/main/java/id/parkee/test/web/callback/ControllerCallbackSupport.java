@@ -43,6 +43,8 @@ public class ControllerCallbackSupport {
                 result.setResultCode(pe.getErrorCode().getErrorCode());
                 result.setResultMessage(pe.getErrorCode().getErrorMessage());
             }
+
+            LoggerUtil.exception(e.getMessage(), e);
         }
 
         ResponseEntity<R> response = ResponseEntity

@@ -16,3 +16,6 @@ CREATE TABLE tickets (
     gmt_modified TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     PRIMARY KEY (id)
 );
+
+INSERT INTO tickets (`ticket_number`, `area_code`, `plate_number`, `plate_code`)
+VALUES ("30984", "B", "1234", "AB");

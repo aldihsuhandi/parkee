@@ -14,8 +14,17 @@ public class TicketDO extends BaseDO {
     @Id
     private int id;
 
-    @Column(name = "plate")
-    private String plate;
+    @Column(name = "ticket_number")
+    private String ticketNumber;
+
+    @Column(name = "area_code")
+    private String areaCode;
+
+    @Column(name = "plate_number")
+    private String plateNumber;
+
+    @Column(name = "plate_code")
+    private String plateCode;
 
     @Column(name = "status")
     private String status;
@@ -34,12 +43,36 @@ public class TicketDO extends BaseDO {
         this.id = id;
     }
 
-    public String getPlate() {
-        return plate;
+    public String getTicketNumber() {
+        return ticketNumber;
     }
 
-    public void setPlate(String plate) {
-        this.plate = plate;
+    public void setTicketNumber(String ticketNumber) {
+        this.ticketNumber = ticketNumber;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
+    }
+
+    public String getPlateCode() {
+        return plateCode;
+    }
+
+    public void setPlateCode(String plateCode) {
+        this.plateCode = plateCode;
     }
 
     public String getStatus() {

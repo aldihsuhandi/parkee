@@ -22,7 +22,7 @@
         <!-- parkee module -->
         <dependency>
             <groupId>id.parkee.test</groupId>
-            <artifactId>parkee-core</artifactId>
+            <artifactId>parkee-web</artifactId>
             <version>1.0.0</version>
         </dependency>
 
