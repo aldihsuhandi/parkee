@@ -28,7 +28,7 @@ public class CheckInProcessor implements BaseProcessor {
         checkVehicleExist(request);
 
         String ticketNumber = ticketService.create(request.getAreaCode(),
-                request.getPlateNumber(), request.getPlateCode());
+                request.getPlateNumber(), request.getPlateCode(), request.getVehicleType());
         result.setTicketNumber(ticketNumber);
     }
 

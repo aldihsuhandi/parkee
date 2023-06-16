@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface TicketRepository extends JpaRepository<TicketDO, Integer> {
     @Query("SELECT t FROM TicketDO t WHERE t.areaCode = :areaCode AND t.plateNumber = :plateNumber AND t.plateCode = :plateCode")
     Optional<TicketDO> findByPlateCombination(String areaCode, String plateNumber, String plateCode);
+
+    Optional<TicketDO> findByTicketNumber(String ticketNumber);
 }

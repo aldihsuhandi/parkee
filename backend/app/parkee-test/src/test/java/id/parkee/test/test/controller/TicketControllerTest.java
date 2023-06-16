@@ -2,10 +2,12 @@ package id.parkee.test.test.controller;
 
 import id.parkee.test.common.model.enums.ParkeeErrorCode;
 import id.parkee.test.common.model.result.ticket.CheckInResult;
+import id.parkee.test.common.model.result.ticket.TicketInfoResult;
 import id.parkee.test.test.base.ParkeeTestBase;
 import id.parkee.test.test.util.ResultAssert;
 import id.parkee.test.web.controller.TicketController;
 import id.parkee.test.web.form.ticket.CheckInForm;
+import id.parkee.test.web.form.ticket.TicketInfoForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -51,5 +53,24 @@ public class TicketControllerTest extends ParkeeTestBase {
         ResultAssert.isNotSuccess(result.isSuccess());
         ResultAssert.isExpected(result.getResultCode(),
                 ParkeeErrorCode.SIMILAR_PLATE_FOUND.getErrorCode());
+    }
+
+    @Test
+    public void ticketInfo_SUCCESS() {
+        TicketInfoForm form = new TicketInfoForm();
+        form.setTicketNumber("30984");
+
+        TicketInfoResult result = ticketController.info(form).getBody();
+        ResultAssert.isSuccess(result.isSuccess());
+    }
+
+    @Test
+    public void ticketInfo_FAILED_notFound() {
+        TicketInfoForm form = new TicketInfoForm();
+        form.setTicketNumber("30985");
+
+        TicketInfoResult result = ticketController.info(form).getBody();
+        ResultAssert.isExpected(result.getResultCode(),
+                ParkeeErrorCode.TICKET_NOT_FOUND.getErrorCode());
     }
 }

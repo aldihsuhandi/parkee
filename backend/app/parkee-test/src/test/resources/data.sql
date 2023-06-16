@@ -9,6 +9,7 @@ CREATE TABLE tickets (
     area_code VARCHAR(32) NOT NULL,
     plate_number VARCHAR(32) NOT NULL,
     plate_code VARCHAR(32) NOT NULL,
+    vehicle_type VARCHAR(32) NOT NULL,
     status VARCHAR(32) DEFAULT "CHECKED_IN",
     check_in DATE DEFAULT NOW(),
     check_out DATE,
@@ -17,5 +18,5 @@ CREATE TABLE tickets (
     PRIMARY KEY (id)
 );
 
-INSERT INTO tickets (`ticket_number`, `area_code`, `plate_number`, `plate_code`)
-VALUES ("30984", "B", "1234", "AB");
+INSERT INTO tickets (`ticket_number`, `area_code`, `plate_number`, `plate_code`, `vehicle_type`)
+VALUES ("30984", "B", "1234", "AB", "MOTOR");

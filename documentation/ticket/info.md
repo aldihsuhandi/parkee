@@ -32,12 +32,12 @@
 | ------------ | ------ | --------- | ------- |
 | ticketNumber | String | Y         |         |
 | areaCode     | String | Y         |         |
+| plateNumber  | String | Y         |         |
+| plateCode    | String | Y         |         |
 | vehicleType  | String | Y         |         |
 | checkInTime  | Date   | Y         |         |
 | checkOutTime | Date   | Y         |         |
 | price        | Long   | Y         |         |
-| plateNumber  | String | Y         |         |
-| plateCode    | String | Y         |         |
 
 ## response example
 

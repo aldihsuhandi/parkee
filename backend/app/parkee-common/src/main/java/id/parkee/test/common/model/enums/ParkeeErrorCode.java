@@ -8,6 +8,8 @@ public enum ParkeeErrorCode {
     PARAM_ILLEGAL("PARAM_ILLEGAL", "request parameter illegal"),
 
     SIMILAR_PLATE_FOUND("SIMILAR_PLATE_FOUND", "vehicle plate number already exist in our parking lot"),
+
+    TICKET_NOT_FOUND("TICKET_NOT_FOUND", "ticket doesn't exist in our system"),
     ;
 
     ParkeeErrorCode(String errorCode, String errorMessage) {

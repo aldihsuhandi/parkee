@@ -14,6 +14,9 @@ public class TicketDO extends BaseDO {
     @Id
     private int id;
 
+    @Column(name = "vehicle_type")
+    private String vehicleType;
+
     @Column(name = "ticket_number")
     private String ticketNumber;
 
@@ -41,6 +44,14 @@ public class TicketDO extends BaseDO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getTicketNumber() {

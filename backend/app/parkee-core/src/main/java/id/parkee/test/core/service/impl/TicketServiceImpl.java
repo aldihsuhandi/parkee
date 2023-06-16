@@ -32,7 +32,15 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public String create(String areaCode, String plateNumber, String plateCode) {
+    public TicketDO findByTicketNumber(String ticketNumber) {
+        LoggerUtil.info(LOGGER, String.format("ticketService#findByTicketNumber invoke request[ticketNumber=%s]", ticketNumber));
+        TicketDO ticket = ticketRepository.findByTicketNumber(ticketNumber).orElse(null);
+        LoggerUtil.info(LOGGER, String.format("ticketService#findByTicketNumber invoke result[ticket=%s]", ticket));
+        return ticket;
+    }
+
+    @Override
+    public String create(String areaCode, String plateNumber, String plateCode, String vehicleType) {
         LoggerUtil.info(LOGGER, String.format("ticketService#create invoke request[areaCode=%s, plateNumber=%s, plateCode=%s]",
                 areaCode, plateNumber, plateCode));
 
@@ -40,6 +48,7 @@ public class TicketServiceImpl implements TicketService {
 
         TicketDO ticket = new TicketDO();
         ticket.setTicketNumber(ticketNumber);
+        ticket.setVehicleType(vehicleType);
         ticket.setAreaCode(areaCode);
         ticket.setPlateCode(plateCode);
         ticket.setPlateNumber(plateNumber);
