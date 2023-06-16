@@ -47,17 +47,17 @@
         </encoder>
     </appender>
 
-    <appender name="DALGEN-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="DAL-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <append>true</append>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>info</level>
         </filter>
 
         <!--log file name-->
-        <file>${logging.path}/${app.name}/${app.name}-dalgen.log</file>
+        <file>${logging.path}/${app.name}/${app.name}-dal-digest.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logging.path}/${app.name}/${app.name}-dalgen.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>${logging.path}/${app.name}/${app.name}-dal-digest.log.%d{yyyy-MM-dd}</FileNamePattern>
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
 
@@ -77,7 +77,7 @@
     </logger>
 
     <logger name="DAL-LOGGER" level="info" addivity="false">
-        <appender-ref ref="DALGEN-APPENDER"/>
+        <appender-ref ref="DAL-APPENDER"/>
     </logger>
 
     <logger name="SERVER-BOOT" level="info" addivity="false">

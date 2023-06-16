@@ -5,7 +5,7 @@ use parkee;
 
 CREATE TABLE tickets (
     id INT AUTO_INCREMENT,
-    plate VARCHAR(20) NOT NULL,
+    plate VARCHAR(255) NOT NULL,
     status VARCHAR(32) NOT NULL DEFAULT "INSIDE",
     check_in DATE NOT NULL DEFAULT NOW(),
     check_out DATE,
