@@ -20,6 +20,7 @@
         <module>app/parkee-core</module>
         <module>app/parkee-test</module>
         <module>app/parkee-boot</module>
+        <module>app/parkee-common</module>
     </modules>
     <properties>
         <source.dir>src/main/java</source.dir>

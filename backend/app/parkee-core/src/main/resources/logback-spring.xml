@@ -80,6 +80,14 @@
         <appender-ref ref="DAL-APPENDER"/>
     </logger>
 
+    <logger name="org.springframework.data.jpa.repository.query" level="DEBUG">
+        <appender-ref ref="DAL-APPENDER"/>
+    </logger>
+
+    <logger name="org.hibernate.SQL" level="DEBUG">
+        <appender-ref ref="DAL-APPENDER"/>
+    </logger>
+
     <logger name="SERVER-BOOT" level="info" addivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>

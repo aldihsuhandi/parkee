@@ -1,9 +1,9 @@
 package id.parkee.test.foundation.repository;
 
-import id.parkee.test.foundation.model.DummyModel;
+import id.parkee.test.foundation.model.TicketDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DummyRepository extends JpaRepository<DummyModel, String> {
+public interface TicketRepository extends JpaRepository<TicketDO, Integer> {
 }

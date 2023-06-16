@@ -1,7 +1,7 @@
 package id.parkee.test.boot;
 
+import id.parkee.test.common.model.constant.LoggerConstant;
 import id.parkee.test.core.configuration.ParkeeConfiguration;
-import id.parkee.test.core.model.constant.LoggerConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.support.AopUtils;

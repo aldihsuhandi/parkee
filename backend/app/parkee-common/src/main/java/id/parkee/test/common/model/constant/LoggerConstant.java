@@ -1,4 +1,4 @@
-package id.parkee.test.core.model.constant;
+package id.parkee.test.common.model.constant;
 
 public class LoggerConstant {
     public static String EXCEPTION_LOGGER = "EXCEPTION-LOGGER";

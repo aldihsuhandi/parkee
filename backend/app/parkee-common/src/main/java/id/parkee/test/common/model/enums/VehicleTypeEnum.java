@@ -1,4 +1,4 @@
-package id.parkee.test.core.model.enums;
+package id.parkee.test.common.model.enums;
 
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
