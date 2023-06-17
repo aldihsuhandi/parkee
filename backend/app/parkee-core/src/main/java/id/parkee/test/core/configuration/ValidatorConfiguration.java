@@ -3,6 +3,7 @@ package id.parkee.test.core.configuration;
 import id.parkee.test.common.model.enums.ProcessTypeEnum;
 import id.parkee.test.core.validator.BaseValidator;
 import id.parkee.test.core.validator.ticket.CheckInRequestValidator;
+import id.parkee.test.core.validator.ticket.CheckOutRequestValidator;
 import id.parkee.test.core.validator.ticket.TicketInfoRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,9 @@ public class ValidatorConfiguration {
     private CheckInRequestValidator checkInRequestValidator;
 
     @Autowired
+    private CheckOutRequestValidator checkOutRequestValidator;
+
+    @Autowired
     private TicketInfoRequestValidator ticketInfoRequestValidator;
 
     @Bean
@@ -26,6 +30,7 @@ public class ValidatorConfiguration {
     public Map<String, BaseValidator> validatorMap() {
         Map<String, BaseValidator> validatorMap = new HashMap<>();
         validatorMap.put(ProcessTypeEnum.CHECKED_IN.getCode(), checkInRequestValidator);
+        validatorMap.put(ProcessTypeEnum.CHECKED_OUT.getCode(), checkOutRequestValidator);
         validatorMap.put(ProcessTypeEnum.TICKET_INFO.getCode(), ticketInfoRequestValidator);
 
         return validatorMap;

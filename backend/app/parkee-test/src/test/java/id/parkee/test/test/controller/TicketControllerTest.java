@@ -2,11 +2,13 @@ package id.parkee.test.test.controller;
 
 import id.parkee.test.common.model.enums.ParkeeErrorCode;
 import id.parkee.test.common.model.result.ticket.CheckInResult;
+import id.parkee.test.common.model.result.ticket.CheckOutResult;
 import id.parkee.test.common.model.result.ticket.TicketInfoResult;
 import id.parkee.test.test.base.ParkeeTestBase;
 import id.parkee.test.test.util.ResultAssert;
 import id.parkee.test.web.controller.TicketController;
 import id.parkee.test.web.form.ticket.CheckInForm;
+import id.parkee.test.web.form.ticket.CheckOutForm;
 import id.parkee.test.web.form.ticket.TicketInfoForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,26 @@ public class TicketControllerTest extends ParkeeTestBase {
     }
 
     @Test
+    public void checkOutTest_SUCCESS() {
+        CheckOutForm form = new CheckOutForm();
+        form.setTicketNumber("30984");
+
+        CheckOutResult result = ticketController.checkOut(form).getBody();
+        ResultAssert.isSuccess(result.isSuccess());
+    }
+
+    @Test
+    public void checkOutTest_FAILED_notFound() {
+        CheckOutForm form = new CheckOutForm();
+        form.setTicketNumber("10923");
+
+        CheckOutResult result = ticketController.checkOut(form).getBody();
+        ResultAssert.isNotSuccess(result.isSuccess());
+        ResultAssert.isExpected(result.getResultCode(),
+                ParkeeErrorCode.TICKET_NOT_FOUND.getErrorCode());
+    }
+
+    @Test
     public void ticketInfo_SUCCESS() {
         TicketInfoForm form = new TicketInfoForm();
         form.setTicketNumber("30984");
@@ -70,6 +92,7 @@ public class TicketControllerTest extends ParkeeTestBase {
         form.setTicketNumber("30985");
 
         TicketInfoResult result = ticketController.info(form).getBody();
+        ResultAssert.isNotSuccess(result.isSuccess());
         ResultAssert.isExpected(result.getResultCode(),
                 ParkeeErrorCode.TICKET_NOT_FOUND.getErrorCode());
     }

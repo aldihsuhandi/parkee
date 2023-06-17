@@ -20,3 +20,6 @@ CREATE TABLE tickets (
 
 INSERT INTO tickets (`ticket_number`, `area_code`, `plate_number`, `plate_code`, `vehicle_type`)
 VALUES ("30984", "B", "1234", "AB", "MOTOR");
+
+INSERT INTO tickets (`ticket_number`, `area_code`, `plate_number`, `plate_code`, `vehicle_type`, `status`)
+VALUES ("10923", "B", "4321", "AB", "MOTOR", "CHECKED_OUT");

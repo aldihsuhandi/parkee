@@ -2,12 +2,15 @@ package id.parkee.test.web.controller;
 
 import id.parkee.test.common.model.enums.ProcessTypeEnum;
 import id.parkee.test.common.model.request.ticket.CheckInRequest;
+import id.parkee.test.common.model.request.ticket.CheckOutRequest;
 import id.parkee.test.common.model.request.ticket.TicketInfoRequest;
 import id.parkee.test.common.model.result.ticket.CheckInResult;
+import id.parkee.test.common.model.result.ticket.CheckOutResult;
 import id.parkee.test.common.model.result.ticket.TicketInfoResult;
 import id.parkee.test.web.callback.ControllerCallback;
 import id.parkee.test.web.callback.ControllerCallbackSupport;
 import id.parkee.test.web.form.ticket.CheckInForm;
+import id.parkee.test.web.form.ticket.CheckOutForm;
 import id.parkee.test.web.form.ticket.TicketInfoForm;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +43,30 @@ public class TicketController extends BaseController {
 
                     @Override
                     public void process(String processType, CheckInRequest request, CheckInResult result) {
+                        doProcess(processType, request, result);
+                    }
+                });
+    }
+
+    @PostMapping("/out")
+    public ResponseEntity<CheckOutResult> checkOut(@RequestBody CheckOutForm form) {
+        return ControllerCallbackSupport.process(ProcessTypeEnum.CHECKED_OUT.getCode(), form,
+                new ControllerCallback<CheckOutRequest, CheckOutResult>() {
+                    @Override
+                    public CheckOutResult initResult() {
+                        return new CheckOutResult();
+                    }
+
+                    @Override
+                    public CheckOutRequest composeRequest() {
+                        CheckOutRequest request = new CheckOutRequest();
+                        request.setTicketNumber(form.getTicketNumber());
+
+                        return request;
+                    }
+
+                    @Override
+                    public void process(String processType, CheckOutRequest request, CheckOutResult result) {
                         doProcess(processType, request, result);
                     }
                 });
