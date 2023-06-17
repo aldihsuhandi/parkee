@@ -12,8 +12,8 @@ CREATE TABLE tickets (
     plate_number VARCHAR(32) NOT NULL,
     plate_code VARCHAR(32) NOT NULL,
     status VARCHAR(32) DEFAULT "CHECKED_IN",
-    check_in DATE DEFAULT NOW(),
-    check_out DATE,
+    check_in TIMESTAMP DEFAULT NOW(),
+    check_out TIMESTAMP NULL DEFAULT NULL,
     gmt_create TIMESTAMP NOT NULL DEFAULT NOW(),
     gmt_modified TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     PRIMARY KEY (id)

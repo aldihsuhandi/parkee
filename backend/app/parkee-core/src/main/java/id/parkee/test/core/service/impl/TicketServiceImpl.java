@@ -60,4 +60,10 @@ public class TicketServiceImpl implements TicketService {
         LoggerUtil.info(LOGGER, String.format("ticketService#create invoke result[ticketNumber=%s]", ticketNumber));
         return ticketNumber;
     }
+
+    @Override
+    public void update(TicketDO ticket) {
+        LoggerUtil.info(LOGGER, String.format("ticketService#update invoke request[ticket=%s]", ticket));
+        ticketRepository.save(ticket);
+    }
 }

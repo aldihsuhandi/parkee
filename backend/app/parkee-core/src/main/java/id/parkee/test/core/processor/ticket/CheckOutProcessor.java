@@ -32,5 +32,7 @@ public class CheckOutProcessor implements BaseProcessor {
 
         ticket.setStatus(TicketStatusEnum.CHECKED_OUT.getStatus());
         ticket.setCheckOut(new Date());
+
+        ticketService.update(ticket);
     }
 }

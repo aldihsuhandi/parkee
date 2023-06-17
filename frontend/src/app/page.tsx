@@ -1,113 +1,185 @@
-import Image from 'next/image'
+"use client";
+import { CheckInAPI } from "@/helper/ticket/CheckInCall";
+import { DateToFormattedString } from "@/helper/util/DateUtil";
+import { CheckInAPIResult, CheckInForm } from "@/types/ticket/CheckIn";
+import { Field, useFormik } from "formik";
+import { useEffect, useState } from "react";
+import * as Yup from "yup";
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+  const [ticketNumber, setTicketNumber] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [clock, setClock] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setClock(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  });
+
+  const initialValues: CheckInForm = {
+    vehicleType: "MOTOR",
+    areaCode: "",
+    plateNumber: "",
+    plateCode: "",
+  };
+
+  const CheckInValidation = Yup.object().shape({
+    vehicleType: Yup.string().required("Jenis kendaraan perlu diisi!"),
+    areaCode: Yup.string().required("Nomor pelat tidak sesuai format!"),
+    plateNumber: Yup.string()
+      .length(4, "Nomor pelat tidak sesuai format!")
+      .required("Nomor pelat tidak sesuai format!"),
+    plateCode: Yup.string().required("Nomor pelat tidak sesuai format!"),
+  });
+
+  const CheckInForm = () => {
+    const formik = useFormik({
+      initialValues: initialValues,
+      onSubmit: async (values) => {
+        console.log(values);
+        const form: CheckInForm = {
+          vehicleType: values.vehicleType,
+          areaCode: values.areaCode,
+          plateNumber: values.plateNumber,
+          plateCode: values.plateCode,
+        };
+        console.log(form);
+        const checkInResult: CheckInAPIResult | undefined = await CheckInAPI(
+          form
+        );
+        if (checkInResult) {
+          if (checkInResult.success) {
+            setTicketNumber(checkInResult.ticketNumber);
+            setErrorMessage("");
+          } else {
+            setErrorMessage(checkInResult.resultMessage);
+          }
+        }
+      },
+      validationSchema: CheckInValidation,
+    });
+
+    const ErrorMessage = () => {
+      const msg = formik.errors.areaCode
+        ? formik.errors.areaCode
+        : formik.errors.plateCode
+        ? formik.errors.plateCode
+        : formik.errors.plateNumber
+        ? formik.errors.plateNumber
+        : errorMessage
+        ? errorMessage
+        : "";
+
+      if (msg) {
+        return <div>{msg}</div>;
+      }
+
+      return <></>;
+    };
+
+    return (
+      <>
+        <form onSubmit={formik.handleSubmit} className="w-full">
+          <div className="flex w-full items-center justify-center rounded-md border-2 border-solid border-blue-300 p-1">
+            <input
+              type="text"
+              id="areaCode"
+              name="areaCode"
+              onChange={formik.handleChange}
+              value={formik.values.areaCode}
+              className="mx-1 h-full w-8 rounded-sm p-1 text-center"
             />
-          </a>
+            <input
+              type="text"
+              id="plateNumber"
+              name="plateNumber"
+              onChange={formik.handleChange}
+              value={formik.values.plateNumber}
+              className="mx-1 h-full w-16 rounded-sm p-1 text-center"
+            />
+            <input
+              type="text"
+              id="placeCode"
+              name="plateCode"
+              onChange={formik.handleChange}
+              value={formik.values.plateCode}
+              className="mx-1 h-full w-12 rounded-sm p-1 text-center"
+            />
+          </div>
+          <ErrorMessage />
+          <p>Jenis Kendaraan</p>
+          <select
+            name="vehicleType"
+            id="vehicleType"
+            value={formik.values.vehicleType}
+            onChange={formik.handleChange}
+            className="flex w-1/2 items-center justify-start rounded-sm p-2"
+          >
+            <option value="MOTOR">Motor</option>
+            <option value="MOBIL">Mobil</option>
+          </select>
+          <button
+            type="submit"
+            className="my-2 flex w-1/2 items-center justify-center rounded-md bg-red-500 p-2 font-bold text-white"
+          >
+            Cetak Tiket
+          </button>
+        </form>
+      </>
+    );
+  };
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-start ">
+      <div className="m-4 flex w-full flex-row items-start justify-start p-3">
+        <div className="flex w-2/3 flex-col items-start justify-center border-r-2 border-solid border-gray-300 p-4 ">
+          {/* camera */}
+          <div className="flex h-[500px] w-full items-end justify-start rounded-md  border-2 border-solid border-gray-300">
+            <div className="w-full bg-gray-400 p-3">
+              <p>Entry Camera</p>
+            </div>
+          </div>
+          <div className="flex w-full flex-col items-start justify-center px-2 pt-5">
+            <p>Plat Nomor Kendaraan (F7)</p>
+            {CheckInForm()}
+          </div>
+        </div>
+        <div className="flex h-full w-1/3 flex-col items-start justify-center p-4 pt-3">
+          <div className="flex w-full flex-col items-center justify-center">
+            <p>{DateToFormattedString(clock)}</p>
+            <p>Pintu masuk</p>
+          </div>
+          <div className="flex w-full flex-col items-center justify-start p-3">
+            <div className="flex w-full items-center justify-between">
+              <p>Nomor ticket</p>
+              <p>{ticketNumber ? ticketNumber : "-"}</p>
+            </div>
+            <div className="flex w-full items-center justify-between">
+              <p>Jenis Parkir</p>
+              <p>-</p>
+            </div>
+            <div className="flex w-full items-center justify-between">
+              <p>Member Expired</p>
+              <p>-</p>
+            </div>
+            <div className="flex w-full items-center justify-between">
+              <p>Nama Member</p>
+              <p>-</p>
+            </div>
+            <a
+              href={`/info/` + ticketNumber}
+              className="mt-3 flex w-full items-center justify-center rounded-md bg-blue-500 p-2 text-white"
+            >
+              Checkout ticket
+            </a>
+          </div>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
-  )
+  );
 }

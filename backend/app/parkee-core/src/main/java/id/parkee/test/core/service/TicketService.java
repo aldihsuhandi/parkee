@@ -8,4 +8,6 @@ public interface TicketService {
     TicketDO findByTicketNumber(String ticketNumber);
 
     String create(String areaCode, String plateNumber, String plateCode, String vehicleType);
+
+    void update(TicketDO ticket);
 }
